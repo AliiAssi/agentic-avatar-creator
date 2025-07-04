@@ -5,17 +5,23 @@ A Flask web application that uses Google's Gemini to analyze images and create n
 ## Features
 
 - **Image Analysis**: Upload images and get detailed AI-powered analysis
-- **Image Generation**: Create images from text descriptions
+- **Image Generation**: Create images from text descriptions  
 - **Complete Pipeline**: Analyze an image and automatically generate a new image based on the analysis
 - **Modern Web UI**: Responsive interface with drag-and-drop file uploads
 - **Agent-based Architecture**: Modular design with separate analyzer and creator agents
+
+## Requirements
+
+- Python 3.8+
+- Google AI API access
+- Flask and dependencies (see requirements.txt)
 
 ## Installation
 
 1. **Clone the repository**
    ```bash
    git clone https://github.com/AliiAssi/agentic-avatar-creator.git
-   cd ai-image-studio
+   cd agentic-avatar-creator
    ```
 
 2. **Install dependencies**
@@ -26,6 +32,11 @@ A Flask web application that uses Google's Gemini to analyze images and create n
 3. **Set up environment variables**
    ```bash
    export GOOGLE_API_KEY="your_google_api_key_here"
+   ```
+   
+   Or create a `.env` file:
+   ```
+   GOOGLE_API_KEY=your_google_api_key_here
    ```
 
 4. **Create necessary directories**
@@ -40,6 +51,26 @@ A Flask web application that uses Google's Gemini to analyze images and create n
    ```
 
 The application will be available at `http://localhost:5000`
+
+## Usage Examples
+
+### Analyze an image
+```bash
+curl -X POST -F "image=@photo.jpg" http://localhost:5000/api/analyze
+```
+
+### Generate an image
+```bash
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"prompt":"a sunset over mountains"}' \
+  http://localhost:5000/api/create
+```
+
+### Complete pipeline (analyze then create)
+```bash
+curl -X POST -F "image=@photo.jpg" -F "caption=enhance this" \
+  http://localhost:5000/api/process
+```
 
 ## API Endpoints
 
@@ -65,7 +96,7 @@ Run complete pipeline: analyze image then create new image.
 
 ```
 ├── .env
-├── README
+├── README.md
 ├── agents
 │   ├── analyzer.py
 │   └── creator.py
@@ -108,15 +139,6 @@ Run complete pipeline: analyze image then create new image.
 - Handles complex workflows like the complete pipeline
 - Provides agent capability discovery
 
-## Error Handling
-
-The application includes comprehensive error handling for:
-- Missing API keys
-- File upload errors
-- API request failures
-- Invalid file types
-- Network timeouts
-
 ## Development
 
 ### Running in Debug Mode
@@ -129,6 +151,22 @@ python app.py
 1. Create a new agent class following the existing pattern
 2. Register it with the orchestrator in `app.py`
 3. Add appropriate API endpoints if needed
+
+## Error Handling
+
+The application includes comprehensive error handling for:
+- Missing API keys
+- File upload errors
+- API request failures
+- Invalid file types
+- Network timeouts
+
+## Security Considerations
+
+- Store API keys securely using environment variables or `.env` files
+- Never commit API keys to version control
+- Consider rate limiting for production deployments
+- Validate all file uploads for security
 
 ## Troubleshooting
 
@@ -148,6 +186,17 @@ python app.py
    - Ensure all dependencies are installed
    - Review console output for specific error messages
 
-## Note
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature-name`
+3. Make your changes and test thoroughly
+4. Submit a pull request with a clear description
+
+## License
 
 This project is provided as-is for educational and development purposes.
+
+## Support
+
+For issues and questions, please open an issue on the GitHub repository.
